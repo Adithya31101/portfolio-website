@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
+
 html,
 body {
   padding: 0;
@@ -12,5 +14,38 @@ a {
 }
 
 * {
+  font-family: 'Open Sans', sans-serif;
   box-sizing: border-box;
+}
+
+:root {
+  font-size: 1rem;
+  --small: 480px;
+  --medium: 768px;
+  --large: 1600px;
+  --extra-large: 2160px;
+}
+
+@media only screen and (max-width: 480px) {
+  body {
+    background-color: blue;
+  }
+
+}
+@media only screen and (min-width: 768px) {
+  body {
+    background-color: green;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  body {
+    background-color: yellow;
+  }
+}
+
+@media only screen and (min-width: 1920px) {
+  body {
+    background-color: purple;
+  }
 }
