@@ -30,4 +30,10 @@ export const reducer = (state: App[], action: {type: string, payload: string | a
          return state;
       }
    }
+
+   if(action.type === "CLOSE"){
+      const newAppState = state.filter(app => app.name !== action.payload);
+      console.log(newAppState);
+      return newAppState;
+   }
 };

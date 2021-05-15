@@ -2,25 +2,23 @@ import Head from 'next/head';
 import {ThemeProvider} from 'styled-components';
 import Statusbar from '../components/general/Statusbar';
 import Dock from '../components/general/Dock';
-import { useState, useEffect, createContext, useReducer } from 'react';
+import { useState, useEffect } from 'react';
 import { Apps } from '../components/staticInfo';
 import App from '../components/general/App';
-import { App as AppType, initialState, reducer } from '../reducers/AppReducer';
 import { Workspace } from '../components/styles/homepage';
 import AppWindow from '../components/application/AppWindow';
-
-export const AppsContext = createContext(null);
+import { App as AppType, OPEN_APP } from '../reducers/AppStateModifiers';
 
 export default function Home() {
-  //Context
-  const [state, dispatch] = useReducer(reducer, initialState);
 
   //State
   const [theme, setTheme] = useState({
     mode: "dark",
     themeStyles: {
+      bgAccent: '#000000',
       bg: '#0e0d0d',
-      fg: '#fff',
+      fgAccent: '#fff',
+      fg: '#f2f2f2',
     }
   });
   const [appsRunning, setAppsRunning] = useState<AppType[]>([])
@@ -32,22 +30,18 @@ export default function Home() {
       setTheme({
         mode: mode,
         themeStyles: {
-          bg: mode === "light"? '#fff' : '#0e0d0d',
-          fg: mode === "light"? '#0e0d0d' : '#fff',
+          bg: mode === "light"? '#f2f2f2' : '#0e0d0d',
+          fg: mode === "light"? '#0e0d0d' : '#f2f2f2',
+          bgAccent: mode === "light"? '#ffffff' : '#000000',
+          fgAccent: mode === "light"? '#000000' : '#ffffff',
         }
       });
     }
   }, []);
 
   //Handlers
-  const handleOpenApp = (app: string): void => {
-    dispatch({ type: "OPEN", payload: app});
-    setTimeout(updateAppWindows, 50);
-  }
-
-  const updateAppWindows = () => {
-    console.log(state);
-    setAppsRunning([...state]);
+  const handleOpenApp = (appName: string): void => {
+    setAppsRunning(prev => [...OPEN_APP(prev, appName)]);
   }
 
   return (
@@ -60,27 +54,22 @@ export default function Home() {
 
       {/* Visible Interface */}
       <ThemeProvider theme={theme.themeStyles}>
-        <AppsContext.Provider value={{
-          state,
-          dispatch
-        }}>
           <Statusbar />
           <Workspace>
             {
-              Apps.map((app, idx) => (
-                <div key={idx} onDoubleClick={() => handleOpenApp(app.name)}>
+              Apps.map((app) => (
+                <div key={app.id} onDoubleClick={() => handleOpenApp(app.name)}>
                   <App name={app.name} icon={app.icon} />
                 </div>
               ))
             }
             {
               appsRunning.map(app => (
-                <AppWindow  name={app.name} state={app.state} key={app.id} left={`${app.id + 10}rem`}></AppWindow>
+                <AppWindow setApps={setAppsRunning} name={app.name} state={app.state} key={app.id} left={`${app.id + 10}rem`}></AppWindow>
               ))
             }
           </Workspace>
           <Dock />
-        </AppsContext.Provider>
       </ThemeProvider>
     </>
   );

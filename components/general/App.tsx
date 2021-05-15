@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import styled from 'styled-components';
 
 const AppContainer = styled.div`
@@ -31,12 +32,12 @@ const IconText = styled.span`
    user-select: none;
    text-overflow: ellipsis;
    overflow: hidden;
+   white-space: nowrap;
    /* height: 3ch; */
 `;
 
 
-export default function App({ name, icon, ...props }): JSX.Element {
-
+const App = ({ name, icon, ...props }): JSX.Element => {
    return (
       <AppContainer>
          <IconPlaceholder />
@@ -44,3 +45,5 @@ export default function App({ name, icon, ...props }): JSX.Element {
       </AppContainer>
    )
 }
+
+export default memo(App);

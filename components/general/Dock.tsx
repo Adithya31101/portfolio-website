@@ -1,3 +1,4 @@
+import { memo } from "react";
 import styled from "styled-components";
 
 const DockContainer = styled.div`
@@ -18,8 +19,10 @@ const DockContainer = styled.div`
    }
 `;
 
-export default function Statusbar() {
+const Statusbar = memo(() => {
   return <DockContainer>
     
   </DockContainer>
-}
+});
+
+export default Statusbar;

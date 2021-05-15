@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { memo } from 'react';
 
 const StatusBarContainer = styled.div`
   height: 4vh;
@@ -7,8 +8,10 @@ const StatusBarContainer = styled.div`
   box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
 `;
 
-export default function Statusbar() {
+const Statusbar = memo(() => {
   return <StatusBarContainer>
     <span>Hello</span>
   </StatusBarContainer>
-}
+})
+
+export default Statusbar;

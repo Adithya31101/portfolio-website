@@ -1,19 +1,24 @@
 import styled from 'styled-components';
+import { AppState } from '../../reducers/AppStateModifiers';
 
 interface AppWindowStyleProps {
   left: string,
-  appstate: number
+  appstate: number,
+  width ?: string,
+  height ?: string,
 }
 
 export const WindowContainer = styled.div<AppWindowStyleProps>`
-   height: 50rem;
-   width: 50rem;
-   background-color: #fff;
+   height: ${props => props.appstate === AppState.maximised? '100vh' : props.height };
+   width: ${props => props.appstate === AppState.maximised? '100vw' : props.width };
+   background-color: ${props => props.theme.bgAccent};
    position: absolute;
-   top: 20rem;
-   left: ${props => props.left};
+   top: ${props => props.appstate === AppState.maximised? '0!important' : '20rem'};
+   left: ${props => props.appstate === AppState.maximised? '0!important' : props.left};
    border-radius: 5px;
    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+   z-index: 3;
+   display: ${props => props.appstate === AppState.minimised? 'none' : 'block'};
 `;
 
 export const TitleBar = styled.div`
@@ -36,13 +41,14 @@ export const TitleBar = styled.div`
    }
    > span {
       user-select: none;
+      color: ${props => props.theme.fg};
    }
 `;
 
 
 export const Button = styled.div<{color: string}>`
-   width: 1.2rem;
-   height: 1.2rem;
+   width: 1.1rem;
+   height: 1.1rem;
    display: grid;
    margin-left: 0.8rem;
    background-color: ${p => p.color};
