@@ -4,7 +4,7 @@ import styled from "styled-components";
 const DockContainer = styled.div`
    position: absolute;
    z-index: 2;
-   background-color: #fff;
+   background-color: ${props => props.theme.fg};
    opacity: 0.4;
    height: 5rem;
    bottom: 0.4rem;

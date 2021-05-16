@@ -13,34 +13,34 @@ const AppContainer = styled.div`
    transition: background-color 50ms ease-in-out;
 
    :hover {
-      background-color: rgba(245, 245, 245, 0.411)
+      background-color: rgba(245, 245, 245, 0.178)
    }
    @media only screen and (max-width: 480px){
       width: 5rem;
    }
 `;
 
-const IconPlaceholder = styled.div`
-   width: 2.5rem;
-   height: 2.5rem;
-   background-color: whitesmoke;
+const IconPlaceholder = styled.img`
+   width: 4rem;
+   height: 4rem;
    margin-bottom: 10px;
+   filter: ${props => props.theme.mode === 'light'? 'invert(100%)' : 'none'};
 `;
 
 const IconText = styled.span`
-   color: #fff;
+   color: ${props => props.theme.fg};
    user-select: none;
-   text-overflow: ellipsis;
+   text-overflow: clip;
    overflow: hidden;
    white-space: nowrap;
-   /* height: 3ch; */
+   width: 4rem;
 `;
 
 
 const App = ({ name, icon, ...props }): JSX.Element => {
    return (
-      <AppContainer>
-         <IconPlaceholder />
+      <AppContainer title={name}>
+         <IconPlaceholder src={icon} alt={name}/>
          <IconText>{name}</IconText>
       </AppContainer>
    )

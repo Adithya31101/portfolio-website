@@ -15,6 +15,7 @@ export default function Home() {
   const [theme, setTheme] = useState({
     mode: "dark",
     themeStyles: {
+      mode: "dark",
       bgAccent: '#000000',
       bg: '#0e0d0d',
       fgAccent: '#fff',
@@ -27,6 +28,7 @@ export default function Home() {
   useEffect(() => {
     const mode: string | null = localStorage.getItem("mode");
     if(mode){
+      document.body.style.backgroundColor = mode === 'light'? '#f2f2f2' : '#000';
       setTheme({
         mode: mode,
         themeStyles: {
@@ -34,6 +36,7 @@ export default function Home() {
           fg: mode === "light"? '#0e0d0d' : '#f2f2f2',
           bgAccent: mode === "light"? '#ffffff' : '#000000',
           fgAccent: mode === "light"? '#000000' : '#ffffff',
+          mode: mode
         }
       });
     }

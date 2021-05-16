@@ -28,24 +28,24 @@ a {
 
 @media only screen and (max-width: 480px) {
   body {
-    background-color: blue;
+    box-sizing: border-box;
   }
 
 }
 @media only screen and (min-width: 768px) {
   body {
-    background-color: green;
+    box-sizing: border-box;
   }
 }
 
 @media only screen and (min-width: 1440px) {
   body {
-    background-color: yellow;
+    box-sizing: border-box;
   }
 }
 
 @media only screen and (min-width: 1920px) {
   body {
-    background-color: purple;
+    box-sizing: border-box;
   }
 }

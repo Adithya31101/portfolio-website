@@ -11,7 +11,6 @@ interface Props {
 }
 
 const AppWindow = memo(({left, name, state, setApps}: Props, ...props) => {
-   console.log(name + " Reloaded")
    const appWindowRef: MutableRefObject<HTMLDivElement> = useRef();
    let clickCoordinates = {
       x: null,

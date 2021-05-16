@@ -7,51 +7,37 @@ interface AppIcon {
 export const Apps: AppIcon[] = [
    {
       id: 1,
-      icon: "",
-      name: "Curriculum Vitae",
+      icon: "/icons/apps/about.svg",
+      name: "About",
    },
    {
       id: 2,
-      icon: "",
-      name: "Skills",
+      icon: "/icons/apps/skillsets.svg",
+      name: "Skillsets",
    },
    {
       id: 3,
-      icon: "",
-      name: "Project 1",
+      icon: "/icons/apps/timeline.svg",
+      name: "Timeline",
    },
    {
       id: 4,
-      icon: "",
-      name: "Messages",
+      icon: "/icons/apps/interests.svg",
+      name: "Interests",
    },
    {
       id: 5,
-      icon: "",
-      name: "Blogs",
+      icon: "/icons/apps/articles.svg",
+      name: "Articles",
    },
    {
       id: 6,
-      icon: "",
-      name: "Blogs",
+      icon: "/icons/apps/projects.svg",
+      name: "Projects",
    },
    {
       id: 7,
-      icon: "",
-      name: "Blogs",
-   },
-   {
-      id: 8,
-      icon: "",
-      name: "Blogs",
-   },
-   {
-      id: 9,
-      icon: "",
-      name: "Blogs",
-   },{
-      id: 10,
-      icon: "",
-      name: "Blogs",
+      icon: "/icons/apps/connect.svg",
+      name: "Connect",
    },
 ];
