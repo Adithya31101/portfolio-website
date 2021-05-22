@@ -7,7 +7,9 @@ import { Apps } from '../components/staticInfo';
 import App from '../components/general/App';
 import { Workspace } from '../components/styles/homepage';
 import AppWindow from '../components/application/AppWindow';
-import { App as AppType, OPEN_APP } from '../reducers/AppStateModifiers';
+import { OPEN_APP } from '../reducers/AppStateModifiers';
+import { App as AppType } from '../components/types';
+import isMobile from '../components/hooks/isMobile';
 
 export default function Home() {
 
@@ -22,7 +24,7 @@ export default function Home() {
       fg: '#f2f2f2',
     }
   });
-  const [appsRunning, setAppsRunning] = useState<AppType[]>([])
+  const [appsRunning, setAppsRunning] = useState<AppType[]>([]);
 
   //Use Effect :: onPageLoad
   useEffect(() => {
@@ -43,8 +45,8 @@ export default function Home() {
   }, []);
 
   //Handlers
-  const handleOpenApp = (appName: string): void => {
-    setAppsRunning(prev => [...OPEN_APP(prev, appName)]);
+  const handleOpenApp = (appName: string, appIcon: string): void => {
+    setAppsRunning(prev => [...OPEN_APP(prev, appName, appIcon)]);
   }
 
   return (
@@ -61,18 +63,30 @@ export default function Home() {
           <Workspace>
             {
               Apps.map((app) => (
-                <div key={app.id} onDoubleClick={() => handleOpenApp(app.name)}>
-                  <App name={app.name} icon={app.icon} />
+                <div 
+                  key={app.id}
+                   onClick={() => isMobile()? handleOpenApp(app.name, app.icon) : null} 
+                   onDoubleClick={() => handleOpenApp(app.name, app.icon)}
+                   >
+                  <App dock={false} name={app.name} icon={app.icon} />
                 </div>
               ))
             }
             {
               appsRunning.map(app => (
-                <AppWindow setApps={setAppsRunning} name={app.name} state={app.state} key={app.id} left={`${app.id + 10}rem`}></AppWindow>
+                <AppWindow 
+                active={app.active}
+                setApps={setAppsRunning}
+                name={app.name} 
+                state={app.state} 
+                key={app.id} 
+                left={`${app.id + 10}rem`}
+                zIndex={app.id + 5}
+                ></AppWindow>
               ))
             }
           </Workspace>
-          <Dock />
+          <Dock setApps={setAppsRunning} apps={appsRunning}/>
       </ThemeProvider>
     </>
   );

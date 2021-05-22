@@ -1,16 +1,20 @@
 import { memo, MouseEventHandler, MutableRefObject, useRef, useState } from 'react';
-import { AppState, ControlButtonOps, HANDLE_CONTROL_CLICK } from '../../reducers/AppStateModifiers';
+import { HANDLE_CONTROL_CLICK, UPDATE_ACTIVE } from '../../reducers/AppStateModifiers';
+import { AppState, ControlButtonOps } from '../types';
+import isMobile from '../hooks/isMobile';
 import { WindowContainer, TitleBar, Button } from '../styles/application';
 import AppContent from './AppContent';
 
 interface Props {
   left: string,
   name: string,
-  state: number,
-  setApps: any
+  state: AppState,
+  setApps: any,
+  zIndex: number,
+  active: boolean
 }
 
-const AppWindow = memo(({left, name, state, setApps}: Props, ...props) => {
+const AppWindow = memo(({left, name, state, setApps, zIndex, active}: Props, ...props) => {
    const appWindowRef: MutableRefObject<HTMLDivElement> = useRef();
    let clickCoordinates = {
       x: null,
@@ -26,7 +30,7 @@ const AppWindow = memo(({left, name, state, setApps}: Props, ...props) => {
    }
 
    const handleDragStart = (e) => {
-      if(appWindowRef){
+      if(appWindowRef && !(state === AppState.maximised)){
          clickCoordinates = {x: e.nativeEvent.layerX, y: e.nativeEvent.layerY};
          e.currentTarget.style.cursor = 'move';
          document.addEventListener('mousemove',handleMouseMove);
@@ -42,8 +46,22 @@ const AppWindow = memo(({left, name, state, setApps}: Props, ...props) => {
       setApps(prev => [...HANDLE_CONTROL_CLICK(prev, name, operation)]);
    }
 
+   const handleWindowClick = () => {
+      if(!active){
+         setApps(prev => [...UPDATE_ACTIVE(prev, name)])
+      }
+   }
+
    return (
-      <WindowContainer ref={appWindowRef} appstate={state} {...props} left={left}>
+      <WindowContainer 
+         ref={appWindowRef} 
+         appstate={state} 
+         {...props} 
+         left={left} 
+         zIndex={zIndex} 
+         active={active}
+         onClick={handleWindowClick}
+      >
          <TitleBar onMouseDown={handleDragStart} onMouseUp={handleDragEnd}>
             <div>
                <Button color='#FF5F57' onClick={() => handleControlButtonClick(ControlButtonOps.CLOSE)}>
@@ -52,12 +70,15 @@ const AppWindow = memo(({left, name, state, setApps}: Props, ...props) => {
                <Button color='#FFBD31' onClick={() => handleControlButtonClick(ControlButtonOps.MINIMIZE)}>
                   <img style={{marginTop: '10px'}} src="/icons/minimize.svg" alt="minimize" />
                </Button>
-               <Button color='#1AD94C' onClick={() => {
-                  if(state === AppState.maximised) handleControlButtonClick(ControlButtonOps.INITIALIZE);
-                  else handleControlButtonClick(ControlButtonOps.MAXIMIZE);
-               }}>
-                  <img style={{transform: 'rotate(45deg)'}} src="/icons/maximize.svg" alt="maximize" />
-               </Button>
+               {
+                 !isMobile() &&
+                  <Button color='#1AD94C' onClick={() => {
+                     if(state === AppState.maximised) handleControlButtonClick(ControlButtonOps.INITIALIZE);
+                     else handleControlButtonClick(ControlButtonOps.MAXIMIZE);
+                  }}>               
+                     <img style={{transform: 'rotate(45deg)'}} src="/icons/maximize.svg" alt="maximize" />
+                  </Button>
+               }
             </div>
             <span>{name}</span>
          </TitleBar>

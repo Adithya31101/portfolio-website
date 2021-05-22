@@ -5,15 +5,14 @@ export const Workspace = styled.div`
   display: grid;
   grid-template-rows: repeat(5, 1fr);
   grid-template-columns: repeat(18, 1fr);
-  height: 87vh;
+  height: 89.3vh;
   padding: 2rem;
   gap: 0.8rem;
-  resize: both;
   background: ${props => props.theme.bgAccent};
   background-size: cover;
   grid-auto-flow: column;
   overflow: hidden;
-  @media only screen and (max-width: 480px){
+  @media only screen and (max-width: 768px){
     grid-template-rows: repeat(5, 1fr);
     grid-template-columns: repeat(4, 1fr);
     grid-auto-flow: row;

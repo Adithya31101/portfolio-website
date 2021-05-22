@@ -1,27 +1,24 @@
-export enum AppState { minimised, maximised, initial, fullScreen };
+import isMobile from '../components/hooks/isMobile';
+import { App, AppState, ControlButtonOps } from '../components/types';
 
-export enum ControlButtonOps { CLOSE, MINIMIZE, MAXIMIZE, INITIALIZE }
 
-export interface App {
-   id: number,
-   name: string,
-   active: boolean,
-   state: AppState
-};
-
-export const OPEN_APP = (state: App[], appName: string) => {
-   let newApp: boolean = state.findIndex(app => app.name === appName) === -1;
-   if(newApp){
-      const newAppState = state;
+export const OPEN_APP = (state: App[], appName: string, appIcon: string) => {
+   let appIndex: number = state.findIndex(app => app.name === appName);
+   const newAppState = state;
+   if(appIndex === -1){
+      newAppState.forEach(app => app.active = false);
       newAppState.push({
          id: state.length,
          name: appName,
          active: true,
-         state: AppState.initial
+         state: isMobile()? AppState.maximised : AppState.initial,
+         icon: appIcon,
       });
       return newAppState;
    } else {
-      return state;
+      newAppState[appIndex].active = true;
+      newAppState[appIndex].state = AppState.maximised;
+      return newAppState;
    }
 }
 
@@ -39,12 +36,24 @@ export const HANDLE_CONTROL_CLICK = (apps: App[], appName: string, operation: Co
       }
       case ControlButtonOps.MINIMIZE: {
          apps[i].state = AppState.minimised;
+         apps[i].active = false;
          break;
       }
       case ControlButtonOps.MAXIMIZE: {
+         apps[i].active = true;
          apps[i].state = AppState.maximised;
          break;
       }
    }
    return apps;
+}
+
+export const UPDATE_ACTIVE = (apps: App[], appName: string) => {
+   const newAppState = apps;
+   newAppState.forEach(app => {
+      if(appName === app.name) app.active = true;
+      else app.active = false;
+   });
+   console.log(newAppState);
+   return newAppState;
 }

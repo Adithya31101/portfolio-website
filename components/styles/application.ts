@@ -1,14 +1,17 @@
 import styled from 'styled-components';
-import { AppState } from '../../reducers/AppStateModifiers';
+import { AppState } from '../types';
 
 interface AppWindowStyleProps {
   left: string,
   appstate: number,
   width ?: string,
   height ?: string,
+  zIndex: number,
+  active: boolean
 }
 
 export const WindowContainer = styled.div<AppWindowStyleProps>`
+   opacity: ${props => props.active? '1' : '0.75'};
    height: ${props => props.appstate === AppState.maximised? '100vh' : props.height };
    width: ${props => props.appstate === AppState.maximised? '100vw' : props.width };
    background-color: ${props => props.theme.bgAccent};
@@ -17,8 +20,10 @@ export const WindowContainer = styled.div<AppWindowStyleProps>`
    left: ${props => props.appstate === AppState.maximised? '0!important' : props.left};
    border-radius: 5px;
    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
-   z-index: 3;
+   z-index: ${props => props.active? '15' : props.zIndex};
    display: ${props => props.appstate === AppState.minimised? 'none' : 'block'};
+   resize: both;
+   border: solid 1px #121212;
 `;
 
 export const TitleBar = styled.div`
@@ -61,7 +66,7 @@ export const Button = styled.div<{color: string}>`
       height: 80%;
       transition: opacity 100ms ease-in-out;
 
-      :hover {
+      &:hover {
          opacity: 1;
       }
    }
