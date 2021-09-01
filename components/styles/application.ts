@@ -24,6 +24,7 @@ export const WindowContainer = styled.div<AppWindowStyleProps>`
    display: ${props => props.appstate === AppState.minimised? 'none' : 'block'};
    resize: both;
    border: solid 1px #121212;
+   color: ${props => props.theme.fg};
 `;
 
 export const TitleBar = styled.div`
@@ -72,3 +73,7 @@ export const Button = styled.div<{color: string}>`
    }
 `;
 
+export const AppContainer = styled.div<{background: [string, string]}>`
+   padding: 2rem;
+   background: ${p => (p.theme.mode === 'dark') && (p.background)? p.background[0] : p.background[1]}
+`;

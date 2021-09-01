@@ -22,7 +22,7 @@ const AppWindow = memo(({left, name, state, setApps, zIndex, active}: Props, ...
    }
 
    const handleMouseMove = (e) => {
-         let shiftY = e.clientY - clickCoordinates.y - 40;
+         let shiftY = e.clientY - clickCoordinates.y - 35;
          let shiftX = e.clientX - clickCoordinates.x;
          appWindowRef.current.style.top = `${shiftY}px`;
          appWindowRef.current.style.left = `${shiftX}px`;
