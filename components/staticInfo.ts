@@ -40,4 +40,9 @@ export const Apps: AppIcon[] = [
       icon: "/icons/apps/connect.svg",
       name: "Connect",
    },
+   // {
+   //    id: 8,
+   //    icon: "",
+   //    name: "CV"
+   // }
 ];

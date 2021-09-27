@@ -30,7 +30,6 @@ export default function Home() {
   useEffect(() => {
     const mode: string | null = localStorage.getItem("mode");
     if(mode){
-      document.body.style.backgroundColor = mode === 'light'? '#f2f2f2' : '#000';
       setTheme({
         mode: mode,
         themeStyles: {
@@ -42,6 +41,7 @@ export default function Home() {
         }
       });
     }
+    document.body.style.backgroundColor = mode === 'light'? '#f2f2f2' : '#000';
   }, []);
 
   //Handlers

@@ -5,13 +5,13 @@ export const Workspace = styled.div`
   display: grid;
   grid-template-rows: repeat(5, 1fr);
   grid-template-columns: repeat(18, 1fr);
-  height: 89.3vh;
+  height: calc(100vh - 2.3rem);
   padding: 2rem;
   gap: 0.8rem;
   background: ${props => props.theme.bgAccent};
   background-size: cover;
   grid-auto-flow: column;
-  overflow: hidden;
+  overflow-y: hidden;
   @media only screen and (max-width: 768px){
     grid-template-rows: repeat(5, 1fr);
     grid-template-columns: repeat(4, 1fr);
